@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int editDistance(string str1, string str2){
+	int a = str1.length();
+	int b = str2.length();
+	
+	vector<vector<int>> dp(a+1, vector<int>(b+1, 0));
+	
+	dp[0][0] = 0;
+	
+	for(int i = 1; i <= a; i++) dp[i][0] = i;         // Cost of deleting all characters from str1 when str2 is empty
+	
+	for(int j = 1; j <= b; j++) dp[0][j] = j;         // Cost of inserting all characters to str1 when str1 is empty
+	
+	for(int i = 1; i <= a; i++){
+		for(int j = 1; j <= b; j++){
+                if(str1[i-1] != str2[j-1]){                //using str1[i-1] != str2[j-1] since i and j are 1-based indices in the loop but str1 and str2 are 0-based indexed strings
+                    int deletion = 1 + dp[i-1][j];
+                    int insertion = 1 + dp[i][j-1];
+                    int replacement = 1 + dp[i-1][j-1];
+                    dp[i][j] = min(deletion, min(insertion, replacement));
+                } else {
+                    //int deletion = 1 + dp[i-1][j];
+                    //int insertion = 1 + dp[i][j-1];
+                    //int replacement = 1 + dp[i-1][j-1];
+                    dp[i][j] = dp[i-1][j-1]; // above 3 would also have be taken but no need of them as dp[i-1][j-1] will be smallest
+                }
+		}
+	}
+	
+	return dp[a][b];
+}
+
+int main()
+{
+    string str1;
+    string str2;
+    
+    cin >> str1;
+    cin >> str2;
+
+    cout << editDistance(str1, str2);
+
+    return 0;
+}
