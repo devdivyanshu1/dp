@@ -1,0 +1,47 @@
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+
+int editDistanceWithDifferentCosts(string str1, string str2, int x, int y, int z){ // x-> insert, y-> remove, z-> replace
+	int a = str1.length();
+	int b = str2.length();
+	
+	vector<vector<int>> dp(a+1, vector<int>(b+1, 0));
+	
+	dp[0][0] = 0;
+	
+	for(int i = 1; i <= a; i++) dp[i][0] = y*i;         // Cost of deleting all characters from str1 when str2 is empty
+	
+	for(int j = 1; j <= b; j++) dp[0][j] = x*j;         // Cost of inserting all characters to str1 when str1 is empty
+	
+	for(int i = 1; i <= a; i++){
+		for(int j = 1; j <= b; j++){
+                if(str1[i-1] != str2[j-1]){                //using str1[i-1] != str2[j-1] since i and j are 1-based indices in the loop but str1 and str2 are 0-based indexed strings
+                    int deletion = y + dp[i-1][j];
+                    int insertion = x + dp[i][j-1];
+                    int replacement = z + dp[i-1][j-1];
+                    dp[i][j] = min(deletion, min(insertion, replacement));
+                } else {
+                    int deletion = y + dp[i-1][j];
+                    int insertion = x + dp[i][j-1];
+                    int replacement = z + dp[i-1][j-1];
+                    dp[i][j] = min(x, min(y, min(z, dp[i-1][j-1]))); // above 3 will also have be taken into account in this question
+                }
+		}
+	}
+	
+	return dp[a][b];
+}
+
+int main()
+{
+    string str1;
+    string str2;
+    
+    cin >> str1;
+    cin >> str2;
+
+    cout << editDistanceWithDifferentCosts(str1, str2, 3, 4, 5);
+
+    return 0;
+}
