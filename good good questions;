@@ -5,4 +5,6 @@ dp on longest palenfromic subsequence;;
 https://leetcode.com/problems/longest-palindromic-subsequence/description/?envType=list&envId=55afh7m7
 find unique binary search tree;
 https://leetcode.com/problems/unique-binary-search-trees/?envType=list&envId=55aj8s16
+stock problem; dp[i] mtlb ith index tk best answer;
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/?envType=list&envId=55af7bu7
 
